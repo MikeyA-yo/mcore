@@ -9,6 +9,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { serve } from '@hono/node-server';
@@ -446,9 +447,15 @@ export function createApiApp(container: Container): Hono {
   });
 
   // ─── Static Dashboard Serving ───────────────────────────────
-  const dashboardDist = path.resolve(process.cwd(), 'dashboard/dist');
-  if (fs.existsSync(dashboardDist)) {
-    app.use('/assets/*', serveStatic({ root: './dashboard/dist' }));
+  const currentDir = path.dirname(fileURLToPath(import.meta.url));
+  const candidateDirs = [
+    path.resolve(currentDir, '../dashboard/dist'),
+    path.resolve(process.cwd(), 'dashboard/dist'),
+  ];
+  const dashboardDist = candidateDirs.find((d) => fs.existsSync(d));
+
+  if (dashboardDist) {
+    app.use('/assets/*', serveStatic({ root: dashboardDist }));
     app.get('*', (c) => {
       // Don't intercept /api routes
       if (c.req.path.startsWith('/api')) {

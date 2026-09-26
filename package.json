@@ -10,8 +10,18 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "dashboard/dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeyA-yo/mcore.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MikeyA-yo/mcore/issues"
+  },
+  "homepage": "https://github.com/MikeyA-yo/mcore#readme",
+  "author": "MikeyA-yo",
   "scripts": {
     "build": "tsup",
     "dev": "tsx src/cli.ts",
