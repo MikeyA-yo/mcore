@@ -3,4 +3,3 @@ dist/
 *.tsbuildinfo
 .env
 .env.local
-metercore_prd.md
